@@ -1,9 +1,12 @@
 import React from 'react';
+import { connect } from 'react-redux';
 
 import HomeTabs from './HomeTabs';
 import HomeGraph from './HomeGraph';
 
-function Home () {
+import { openModalUploadJsonFile } from '../actions/modals';
+
+function Home (props) {
     let style = {
         root: {
             position: 'fixed',
@@ -15,12 +18,35 @@ function Home () {
         },
     };
 
+    let callback = (action) => {
+        if ('add-json-file'===action) {
+            props.openModalUploadJsonFile();
+            return;
+        }
+    };
+
     return (
         <div style={style.root}>
-          <HomeTabs />
+          <HomeTabs files={props.files}
+                    callback={callback}/>
           <HomeGraph />
         </div>
     );
 }
 
-export default Home;
+const mapStateToProps = (state) => {
+    return {
+        files: state.files,
+    };
+};
+
+const mapDispatchToProps = (dispatch) => ({
+    openModalUploadJsonFile: () => {
+        dispatch(openModalUploadJsonFile());
+    },
+});
+
+export default connect(
+    mapStateToProps,
+    mapDispatchToProps,
+)(Home);

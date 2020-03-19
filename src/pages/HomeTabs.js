@@ -1,6 +1,6 @@
 import React from 'react';
 
-function HomeTabs () {
+function HomeTabs (props) {
     let style = {
         root: {
             position: 'fixed',
@@ -23,44 +23,39 @@ function HomeTabs () {
             fontSize: '22px',
             paddingLeft: '22px',
             paddingRight: '22px',
+            paddingBottom: '2px',
         }
     };
 
+    let clickAddFile = () => {
+        props.callback('add-json-file');
+    };
+
+    let i = 0;
     return (
         <div style={style.root}>
 
           <div className="tabs is-boxed">
             <ul>
-              <li className="is-active" style={style.tab.first}>
-                <a>
-                  <span style={style.label}>Pictures</span>
-                  <i className="fas fa-times-circle"></i>
-                </a>
-              </li>
+              {
+                  props.files.map((data) => {
+                      console.log(data);
+                      return <li key={i++}
+                                 className="is-active"
+                                 style={i===1 ? style.tab.first : null}>
+                               <a>
+                                 <span style={style.label}>
+                                   {data.file.name}
+                                 </span>
+                                 <i className="fas fa-times-circle"></i>
+                               </a>
+                             </li>;
+
+                  })
+              }
 
               <li>
-                <a>
-                  <span style={style.label}>File 1</span>
-                  <i className="fas fa-times-circle"></i>
-                </a>
-              </li>
-
-              <li>
-                <a>
-                  <span style={style.label}>File 2</span>
-                  <i className="fas fa-times-circle"></i>
-                </a>
-              </li>
-
-              <li>
-                <a>
-                  <span style={style.label}>File 3</span>
-                  <i className="fas fa-times-circle"></i>
-                </a>
-              </li>
-
-              <li>
-                <p style={style.add_button}>
+                <p style={style.add_button} onClick={clickAddFile}>
                   <i className="fas fa-plus-square"></i>
                 </p>
               </li>

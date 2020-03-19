@@ -1,8 +1,12 @@
 import React, { useState } from 'react';
+import { connect } from 'react-redux';
 
 // 参照: https://qiita.com/zaru/items/8c0ab5c70775644d4d41
 
-function ModalJsonFileUploader () {
+import { closeModalUploadJsonFile } from '../actions/modals';
+import { addJsonFile } from '../actions/files';
+
+function ModalJsonFileUploader (props) {
     const [json, setJson] = useState({
         file: null,
         contents: '',
@@ -47,28 +51,52 @@ function ModalJsonFileUploader () {
         reader.readAsText(file);
     };
 
+    let isActive = () => {
+        return props.modals.json.file.upload ? 'is-active' : '';
+    };
+
+    let clickClose = () => {
+        props.closeModalUploadJsonFile();
+    };
+
+    let clickOpen = () => {
+        props.addJsonFile(json);
+        clickClose();
+    };
+
     return (
-        <div className="modal is-active">
+        <div className={`modal ${isActive()}`}>
           <div className="modal-background"></div>
 
           <div className="modal-card">
 
             <header className="modal-card-head">
               <p className="modal-card-title">Uplad JSON file</p>
-              <button className="delete" aria-label="close"></button>
+              <button className="delete"
+                      aria-label="close"
+                      onClick={clickClose}></button>
             </header>
 
             <section className="modal-card-body">
               <div style={style.contents_area}>
-                {json.file && <p><pre style={style.contents}>{json.contents}</pre></p>}
+                {
+                    json.file &&
+                        <pre style={style.contents}>{json.contents}</pre>
+                }
               </div>
 
               <input type="file" name="file" id="file" style={style.input} onChange={changeFile} />
             </section>
 
             <footer className="modal-card-foot" style={style.controller}>
-              <button className="button">Cancel</button>
-              <button className="button is-success">Upload</button>
+              <button className="button"
+                      onClick={clickClose}>
+                Cancel
+              </button>
+
+              <button className="button is-success" onClick={clickOpen}>
+                Open
+              </button>
             </footer>
 
           </div>
@@ -76,4 +104,22 @@ function ModalJsonFileUploader () {
     );
 }
 
-export default ModalJsonFileUploader;
+const mapStateToProps = (state) => {
+    return {
+        modals: state.modals,
+    };
+};
+
+const mapDispatchToProps = (dispatch) => ({
+    closeModalUploadJsonFile: () => {
+        dispatch(closeModalUploadJsonFile());
+    },
+    addJsonFile: (json) => {
+        dispatch(addJsonFile(json));
+    },
+});
+
+export default connect(
+    mapStateToProps,
+    mapDispatchToProps,
+)(ModalJsonFileUploader);
