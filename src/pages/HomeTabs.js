@@ -38,7 +38,7 @@ function HomeTabs (props) {
           <div className="tabs is-boxed">
             <ul>
               {
-                  props.files.map((data) => {
+                  props.jsons.list.map((data) => {
                       console.log(data);
                       return <li key={i++}
                                  className="is-active"

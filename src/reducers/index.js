@@ -1,9 +1,9 @@
 import { combineReducers } from 'redux';
 
 import modals from './modals';
-import files  from './files';
+import jsons  from './jsons';
 
 export default combineReducers({
     modals,
-    files,
+    jsons,
 });

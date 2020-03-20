@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 // 参照: https://qiita.com/zaru/items/8c0ab5c70775644d4d41
 
 import { closeModalUploadJsonFile } from '../actions/modals';
-import { addJsonFile } from '../actions/files';
+import { addJson } from '../actions/jsons';
 
 function ModalJsonFileUploader (props) {
     const [json, setJson] = useState({
@@ -60,7 +60,7 @@ function ModalJsonFileUploader (props) {
     };
 
     let clickOpen = () => {
-        props.addJsonFile(json);
+        props.addJson(json);
         clickClose();
     };
 
@@ -114,8 +114,8 @@ const mapDispatchToProps = (dispatch) => ({
     closeModalUploadJsonFile: () => {
         dispatch(closeModalUploadJsonFile());
     },
-    addJsonFile: (json) => {
-        dispatch(addJsonFile(json));
+    addJson: (json) => {
+        dispatch(addJson(json));
     },
 });
 

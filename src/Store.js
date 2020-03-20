@@ -12,7 +12,10 @@ let StoreModel = {
             }
         }
     },
-    files: [],
+    jsons: {
+        list: [],
+        selected: null,
+    },
 };
 
 const Store = createStore(

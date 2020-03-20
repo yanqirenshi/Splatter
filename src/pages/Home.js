@@ -27,7 +27,7 @@ function Home (props) {
 
     return (
         <div style={style.root}>
-          <HomeTabs files={props.files}
+          <HomeTabs jsons={props.jsons}
                     callback={callback}/>
           <HomeGraph />
         </div>
@@ -36,7 +36,7 @@ function Home (props) {
 
 const mapStateToProps = (state) => {
     return {
-        files: state.files,
+        jsons: state.jsons,
     };
 };
 
