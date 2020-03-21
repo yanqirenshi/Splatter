@@ -9,7 +9,7 @@ import { addJson } from '../actions/jsons';
 function ModalJsonFileUploader (props) {
     const [json, setJson] = useState({
         file: null,
-        contents: '',
+        contents: null,
     });
 
     let style = {
@@ -42,9 +42,11 @@ function ModalJsonFileUploader (props) {
         var reader = new FileReader();
 
         reader.onload = function() {
+            let contents =  JSON.parse(reader.result);
+
             setJson({
                 file: file,
-                contents: reader.result,
+                contents: contents,
             });
         };
 
@@ -81,7 +83,7 @@ function ModalJsonFileUploader (props) {
               <div style={style.contents_area}>
                 {
                     json.file &&
-                        <pre style={style.contents}>{json.contents}</pre>
+                        <pre style={style.contents}>{ JSON.stringify(json.contents, null, 4)}</pre>
                 }
               </div>
 

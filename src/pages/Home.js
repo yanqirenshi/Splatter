@@ -28,8 +28,8 @@ function Home (props) {
     return (
         <div style={style.root}>
           <HomeTabs jsons={props.jsons}
-                    callback={callback}/>
-          <HomeGraph />
+                    callback={callback} />
+          <HomeGraph jsons={props.jsons} />
         </div>
     );
 }
