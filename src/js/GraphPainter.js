@@ -3,6 +3,7 @@ import * as d3 from 'd3';
 import D3Svg from '../libs/D3Svg';
 import D3ForceNode from '../libs/D3ForceNode';
 import D3ForceEdge from '../libs/D3ForceEdge';
+import D3ForceSimulation from '../libs/D3ForceSimulation';
 
 class GraphPainter {
     constructor () {
@@ -17,6 +18,7 @@ class GraphPainter {
 
         this.node = new D3ForceNode();
         this.edge = new D3ForceEdge();
+        this.simulation = new D3ForceSimulation();
     }
     makeSimulation () {
         return d3
@@ -72,14 +74,15 @@ class GraphPainter {
     }
     draw () {
         let data = this._graph_data;
-        let callback = this._callbacks;
 
         let canvas = this._d3svg.d3Element();
+
+        let callbacks = this.simulation.makeDragAndDropCallbacks(this._callbacks);
 
         let nodes_selection = this.node.draw(
             canvas,
             data.nodes,
-            callback);
+            callbacks);
 
         let edges_selection = this.edge.draw(
             canvas,
@@ -99,6 +102,11 @@ class GraphPainter {
                         return `translate(${d.x}, ${d.y})`;
                     });
             });
+
+        this._simulation
+            .force("link")
+            .links(data.edges);
+
 
         return this;
     }
