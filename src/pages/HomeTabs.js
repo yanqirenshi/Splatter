@@ -39,7 +39,6 @@ function HomeTabs (props) {
             <ul>
               {
                   props.jsons.list.map((data) => {
-                      console.log(data);
                       return <li key={i++}
                                  className="is-active"
                                  style={i===1 ? style.tab.first : null}>

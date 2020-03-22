@@ -1,7 +1,8 @@
+import * as d3 from 'd3';
+
 export default class D3Svg {
     constructor(params) {
-        this._d3 = params.d3;
-        this._d3_element = params.d3_element;
+        this._d3_selection = params.d3_selection;
 
         this._scale = params.scale || 1;
 
@@ -16,8 +17,7 @@ export default class D3Svg {
         this.init();
     }
     init () {
-        let d3 = this._d3;
-        let svg = this._d3_element;
+        let svg = this._d3_selection;
 
         let self = this;
         svg.call(d3
@@ -45,11 +45,14 @@ export default class D3Svg {
 
         this.refreshViewBox();
     }
+    d3Element () {
+        return this._d3_selection;
+    }
     /** **************************************************************** *
      * ViewBox
      * **************************************************************** */
     refreshViewBox () {
-        let d3_element = this._d3_element;
+        let d3_selection = this._d3_selection;
 
         var scale = this._scale;
         var look = this._look;
@@ -69,7 +72,7 @@ export default class D3Svg {
             + w + ' '
             + h;
 
-        d3_element.attr('viewBox', viewbox);
+        d3_selection.attr('viewBox', viewbox);
     }
     /** **************************************************************** *
      * MOOVE Camera

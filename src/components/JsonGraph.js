@@ -46,10 +46,10 @@ function JsonGraph (props) {
     let h = window.innerHeight;
 
     return (
-        <div style={style.root} id="json-graph">
+        <div style={style.root}>
           <svg id="json-graph"
-                 width={w}
-                 height={h}></svg>
+               width={w}
+               height={h}></svg>
         </div>
     );
 }
