@@ -72,10 +72,25 @@ class GraphPainter {
         let data = this._graph_data;
         let callback = this._callbacks;
 
-        this.node.draw(
+        let nodes_selection = this.node.draw(
             this._d3svg.d3Element(),
             data.nodes,
             callback);
+
+        this._simulation
+            .nodes(data.nodes)
+            .on("tick", () => {
+                // link
+                //     .attr("x1", function(d) { return d.source.x; })
+                //     .attr("y1", function(d) { return d.source.y; })
+                //     .attr("x2", function(d) { return d.target.x; })
+                //     .attr("y2", function(d) { return d.target.y; });
+
+                nodes_selection
+                    .attr("transform", (d) => {
+                        return `translate(${d.x}, ${d.y})`;
+                    });
+            });
 
         return this;
     }
