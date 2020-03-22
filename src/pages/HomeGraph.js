@@ -2,8 +2,6 @@ import React from 'react';
 
 import JsonGraph from '../components/JsonGraph';
 
-import Splatter from '../js/Splatter';
-
 function HomeGraph (props) {
     let style = {
         root: {
@@ -16,8 +14,6 @@ function HomeGraph (props) {
             zIndex: 10,
         },
     };
-
-    let splatter = new Splatter();
 
     return (
         <div style={style.root}>

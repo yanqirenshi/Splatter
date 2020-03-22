@@ -1,7 +1,5 @@
 import React, { useState, useEffect } from 'react';
 
-import * as d3 from 'd3';
-import D3Svg from '../libs/D3Svg';
 import Splatter from '../js/Splatter';
 
 function JsonGraph (props) {

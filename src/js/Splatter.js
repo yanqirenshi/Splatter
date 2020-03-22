@@ -219,23 +219,23 @@ class Splatter {
     /////
     ///// Painter
     /////
-    svg (d3svg) {
-        let type = d3svg.constructor.name;
+    svg (v) {
+        let type = v.constructor.name;
 
         if ('string'===type) {
             return this.svg(d3.select('#json-graph'));
         }
 
-        if ('object'===(typeof d3svg)) {
+        if ('object'===(typeof v)) {
             if ('D3Svg'===type) {
-                this.modeler.svg(d3svg);
+                this.modeler.svg(v);
                 return this;
             }
 
             if ('Selection'===type) {
                 let d3svg = new D3Svg({
                     d3: d3,
-                    d3_element: d3svg,
+                    d3_element: v,
                     look: {
                         at: { x:0, y:0 },
                     },
