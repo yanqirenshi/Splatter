@@ -168,8 +168,8 @@ class GraphDataManeger extends GraphIDManeger{
     }
     makeEdge (parent, child, indicator) {
         let edge = {
-            from: parent,
-            to: child,
+            source: parent,
+            target: child,
             indicator: indicator,
         };
 

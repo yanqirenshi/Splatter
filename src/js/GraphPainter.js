@@ -2,6 +2,7 @@ import * as d3 from 'd3';
 
 import D3Svg from '../libs/D3Svg';
 import D3ForceNode from '../libs/D3ForceNode';
+import D3ForceEdge from '../libs/D3ForceEdge';
 
 class GraphPainter {
     constructor () {
@@ -15,6 +16,7 @@ class GraphPainter {
         this._simulation = this.makeSimulation();
 
         this.node = new D3ForceNode();
+        this.edge = new D3ForceEdge();
     }
     makeSimulation () {
         return d3
@@ -72,19 +74,25 @@ class GraphPainter {
         let data = this._graph_data;
         let callback = this._callbacks;
 
+        let canvas = this._d3svg.d3Element();
+
         let nodes_selection = this.node.draw(
-            this._d3svg.d3Element(),
+            canvas,
             data.nodes,
             callback);
+
+        let edges_selection = this.edge.draw(
+            canvas,
+            data.edges);
 
         this._simulation
             .nodes(data.nodes)
             .on("tick", () => {
-                // link
-                //     .attr("x1", function(d) { return d.source.x; })
-                //     .attr("y1", function(d) { return d.source.y; })
-                //     .attr("x2", function(d) { return d.target.x; })
-                //     .attr("y2", function(d) { return d.target.y; });
+                edges_selection
+                    .attr("x1", function(d) { return d.source.x; })
+                    .attr("y1", function(d) { return d.source.y; })
+                    .attr("x2", function(d) { return d.target.x; })
+                    .attr("y2", function(d) { return d.target.y; });
 
                 nodes_selection
                     .attr("transform", (d) => {
