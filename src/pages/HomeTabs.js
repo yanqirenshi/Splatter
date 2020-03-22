@@ -19,6 +19,10 @@ function HomeTabs (props) {
         label: {
             marginRight: '22px',
         },
+        add_guid: {
+            marginLeft: '22px',
+            paddingBottom: '2px',
+        },
         add_button: {
             fontSize: '22px',
             paddingLeft: '22px',
@@ -51,6 +55,15 @@ function HomeTabs (props) {
                              </li>;
 
                   })
+              }
+
+              {
+                  props.jsons.list.length===0 &&
+                      <li style={style.add_guid}>
+                        <p>
+                          クリックしてファイルを追加してください。 →
+                        </p>
+                      </li>
               }
 
               <li>
