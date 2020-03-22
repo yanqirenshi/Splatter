@@ -1,9 +1,12 @@
-import React, { useRef, useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 
 import * as d3 from 'd3';
 import D3Svg from '../libs/D3Svg';
+import Splatter from '../js/Splatter';
 
-function JsonGraph () {
+function JsonGraph (props) {
+    const [splatter, setSplatter] = useState(new Splatter());
+
     let style = {
         root: {
             width: '100vw',
@@ -12,39 +15,33 @@ function JsonGraph () {
     };
 
     useEffect(() => {
-        let svg_d3_selection = d3.select('#json-graph');
+        let json = props.json;
 
+        if (!json)
+            return;
 
-        let d3svg = new D3Svg({
-            d3: d3,
-            d3_element: svg_d3_selection,
-            look: {
-                at: { x:0, y:0 },
+        let callbacks = {
+            node: {
+                click: (d) => {
+                    if (d._class==="ROOT") {
+                        if (this.props.inspectors.profile)
+                            this.props.closeInspectorProfile();
+                        else
+                            this.props.openInspectorProfile();
+
+                        return;
+                    }
+                },
             },
-            scale: 2,
-        });
+        };
 
-        // let force = new D3Force(d3, svg, {
-        //     node: {
-        //         click: (d) => {
-        //             if (d._class==="ROOT") {
-        //                 if (this.props.inspectors.profile)
-        //                     this.props.closeInspectorProfile();
-        //                 else
-        //                     this.props.openInspectorProfile();
+        let graph_data = splatter.json2GraphData(props.json.contents);
 
-        //                 return;
-        //             }
-        //         },
-        //     },
-        // });
-
-        // force.draw(this.props.source);
-
-        // this.setState({
-        //     d3svg: d3svg,
-        //     force: force,
-        // });
+        splatter
+            .svg('#json-graph')
+            .data(graph_data)
+            .callbacks(callbacks)
+            .draw();
     });
 
     let w = window.innerWidth;

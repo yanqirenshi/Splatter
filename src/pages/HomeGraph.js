@@ -19,14 +19,9 @@ function HomeGraph (props) {
 
     let splatter = new Splatter();
 
-    if (props.jsons.selected) {
-        let x = splatter.json2GraphData(props.jsons.selected.contents);
-        console.log(x);
-    }
-
     return (
         <div style={style.root}>
-          <JsonGraph />
+          <JsonGraph json={props.jsons.selected}/>
         </div>
     );
 }

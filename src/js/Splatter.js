@@ -1,3 +1,7 @@
+import * as d3 from 'd3';
+
+import D3Svg from '../libs/D3Svg';
+
 class IDManeger {
     initIdCounter () {
         this.id_counter = 0;
@@ -182,17 +186,77 @@ class GraphDataManeger extends IDManeger{
     }
 }
 
+class Painter {
+    svg (d3svg) {
+        return this;
+    }
+    data (data) {
+        return this;
+    }
+    callbacks (callbacks) {
+        return this;
+    }
+    draw () {
+    }
+}
 
 class Splatter {
+    constructor () {
+        this.graph_data_maneger = new GraphDataManeger();
+        this.modeler = new Painter();
+    }
     json2GraphData (json) {
         if (!json)
             return null;
 
-        let gdm = new GraphDataManeger();
-
+        let gdm = this.graph_data_maneger;
+        console.log('--');
+        console.log(gdm);
         gdm.makeNode(json);
 
         return gdm.getGraphData();
+    }
+    /////
+    ///// Painter
+    /////
+    svg (d3svg) {
+        let type = d3svg.constructor.name;
+
+        if ('string'===type) {
+            return this.svg(d3.select('#json-graph'));
+        }
+
+        if ('object'===(typeof d3svg)) {
+            if ('D3Svg'===type) {
+                this.modeler.svg(d3svg);
+                return this;
+            }
+
+            if ('Selection'===type) {
+                let d3svg = new D3Svg({
+                    d3: d3,
+                    d3_element: d3svg,
+                    look: {
+                        at: { x:0, y:0 },
+                    },
+                    scale: 2,
+                });
+
+                return this.svg(d3svg);
+            }
+        }
+
+        throw new Error('Not Supported typ. type=' + type);
+    }
+    data (data) {
+        this.modeler.data(data);
+        return this;
+    }
+    callbacks (callbacks) {
+        this.modeler.callbacks(callbacks);
+        return this;
+    }
+    draw () {
     }
 }
 
